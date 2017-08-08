@@ -1,5 +1,6 @@
 package br.com.fiap.webservice;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,11 +39,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class BuscaTask extends AsyncTask<Integer,Void,String>{
+        private ProgressDialog progress;
+
+        protected void onPreExecute(){
+            progress = ProgressDialog.show(MainActivity.this,"Aguarde...", "Buscando dados no servidor");
+        }
 
         //Método executado após o método doInBackground
         @Override
         protected void onPostExecute(String s) {
             //recuperar os valores do json
+            progress.dismiss();
             if (s != null){
                 try {
                     JSONObject json = new JSONObject(s);
